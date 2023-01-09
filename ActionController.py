@@ -6,13 +6,13 @@ class ActionController():
     run = True
     
     def locatingKeyObjects():
-        captchaFound = not pg.locateOnScreen("captcha.png") == None
+        captchaFound = not pg.locateOnScreen("images/captcha.png") == None
         
         if captchaFound:
             ActionController.run = False
             print("captcha!")
             return
-        toSkip = "skip3.png"  
+        toSkip = "images/skip3.png"  
         skip = pg.locateOnScreen(toSkip)
 
         if not skip == None:
@@ -21,7 +21,7 @@ class ActionController():
             time.sleep(2)
 
     def clickOnTypeArea(self):
-        toSkip = "rozłaczSie.png"
+        toSkip = "images/rozłaczSie.png"
         button = pg.locateOnScreen(toSkip)
         if not button == None:
             pg.click(button[0] + 200, button[1])
@@ -31,7 +31,7 @@ class ActionController():
         return not button == None
 
     def repeatMessageAllertHandle():
-        button = pg.locateOnScreen("powtarzaSie.PNG")
+        button = pg.locateOnScreen("images/powtarzaSie.PNG")
         if not button == None:
             pg.click(button[0], button[1])
         
