@@ -1,34 +1,48 @@
 import pyautogui as pg
 import keyboard as keyb
-import threading
 import time
 
 class ActionController():
-    def __init__(self):
-        print("here")
-        def leaveGate():
-            while self.run: 
-                if keyb.is_pressed('f1'):
-                    run = False
-                
-        self.run = True
-        
-        leaveThread = threading.Thread(target=leaveGate, name="LeaveGate")
-        # leaveThread.start()
+    run = True
     
-    def locatingKeyObjects(self):
+    def locatingKeyObjects():
         captchaFound = not pg.locateOnScreen("captcha.png") == None
         
         if captchaFound:
-            self.run = False
-        for toSkip in ["skip3.png"]:  
-            skip = pg.locateOnScreen(toSkip)
-            if not skip == None:
-                print("skipped")
-                pg.click(skip[0], skip[1])
-            else:
-                print("didnt skip")
-            
+            ActionController.run = False
+            print("captcha!")
+            return
+        toSkip = "skip3.png"  
+        skip = pg.locateOnScreen(toSkip)
+
+        if not skip == None:
+            print("skipped")
+            pg.press("esc")
+            time.sleep(2)
+
+    def clickOnTypeArea(self):
+        toSkip = "rozłaczSie.png"
+        button = pg.locateOnScreen(toSkip)
+        if not button == None:
+            pg.click(button[0] + 200, button[1])
+            print("found")
+        else:
+            print("didnt found")
+        return not button == None
+
+    def repeatMessageAllertHandle():
+        button = pg.locateOnScreen("powtarzaSie.PNG")
+        if not button == None:
+            pg.click(button[0], button[1])
+        
+
+    def writeMessage(text, waitTime = 2):
+        pg.write(text)
+        time.sleep(waitTime)    
+        pg.press('enter')
+        ActionController.repeatMessageAllertHandle()
+
+
     def skipPerson():    
         pg.press('esc')
         time.sleep(0.2)
