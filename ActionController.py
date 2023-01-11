@@ -1,49 +1,56 @@
 import pyautogui as pg
-import keyboard as keyb
 import time
 
 class ActionController():
-    run = True
+
+    def __init__(self):
+        self.run = True
+        self.sc = None
     
-    def locatingKeyObjects():
-        captchaFound = not pg.locateOnScreen("images/captcha.png") == None
+    def LoopActions(self):
+        self.sc = pg.screenshot("screen.png")
+        return self.run
+
+    def FindOnScreen(self, img):
+        return pg.locate(self, img)
+
+    def LocatingKeyObjects(self):
+        captchaFound = not self.FindOnScreen("images/captcha.png") == None
         
         if captchaFound:
-            ActionController.run = False
+            self.run = False
             print("captcha!")
             return
         toSkip = "images/skip3.png"  
-        skip = pg.locateOnScreen(toSkip)
+        skip = self.FindOnScreen(toSkip)
 
         if not skip == None:
             print("skipped")
             pg.press("esc")
             time.sleep(2)
 
-    def clickOnTypeArea(self):
+    def ClickOnTypeArea(self):
         toSkip = "images/rozłaczSie.png"
-        button = pg.locateOnScreen(toSkip)
+        button = self.FindOnScreen(toSkip)
+
         if not button == None:
             pg.click(button[0] + 200, button[1])
-            print("found")
-        else:
-            print("didnt found")
+
         return not button == None
 
-    def repeatMessageAllertHandle():
-        button = pg.locateOnScreen("images/powtarzaSie.PNG")
+    def RepeatMessageAllertHandle(self):
+        button = self.FindOnScreen("images/powtarzaSie.PNG")
         if not button == None:
             pg.click(button[0], button[1])
-        
 
-    def writeMessage(text, waitTime = 2):
+    def WriteMessage(self, text, waitTime = 2):
         pg.write(text)
         time.sleep(waitTime)    
         pg.press('enter')
-        ActionController.repeatMessageAllertHandle()
+        self.RepeatMessageAllertHandle()
 
 
-    def skipPerson():    
+    def SkipPerson():    
         pg.press('esc')
         time.sleep(0.2)
         pg.press('esc')
