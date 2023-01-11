@@ -3,7 +3,6 @@ import pyautogui as pg
 x = 0
 ac = ActionController()
 
-while ac.run:
+while ac.Loop():
     ac.WriteMessage(f"test {x}")
-    ac.LocatingKeyObjects()
     x += 1

@@ -5,24 +5,22 @@ class ActionController():
 
     def __init__(self):
         self.run = True
-        self.sc = None
-    
-    def LoopActions(self):
-        self.sc = pg.screenshot("screen.png")
+
+    def Loop(self):
+        self.LocatingKeyObjects()
+        self.ClickOnTypeArea()
+
         return self.run
 
-    def FindOnScreen(self, img):
-        return pg.locate(self, img)
-
     def LocatingKeyObjects(self):
-        captchaFound = not self.FindOnScreen("images/captcha.png") == None
+        captchaFound = not pg.locateOnScreen("images/captcha.png") == None
         
         if captchaFound:
             self.run = False
             print("captcha!")
             return
         toSkip = "images/skip3.png"  
-        skip = self.FindOnScreen(toSkip)
+        skip = pg.locateOnScreen(toSkip)
 
         if not skip == None:
             print("skipped")
@@ -30,8 +28,8 @@ class ActionController():
             time.sleep(2)
 
     def ClickOnTypeArea(self):
-        toSkip = "images/rozłaczSie.png"
-        button = self.FindOnScreen(toSkip)
+        startCoord = "images/rozłaczSie.png"
+        button = pg.locateOnScreen(startCoord)
 
         if not button == None:
             pg.click(button[0] + 200, button[1])
@@ -39,7 +37,7 @@ class ActionController():
         return not button == None
 
     def RepeatMessageAllertHandle(self):
-        button = self.FindOnScreen("images/powtarzaSie.PNG")
+        button = pg.locateOnScreen("images/powtarzaSie.PNG")
         if not button == None:
             pg.click(button[0], button[1])
 
